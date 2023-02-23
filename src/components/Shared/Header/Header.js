@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../context/UserContext/UserContext';
 
 const Header = () => {
+
+  const {user, logOut} = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+    .then(() => {
+
+    }).catch((error) => {
+
+    });
+  }
+
     return (
         <div>
             <div className="navbar bg-base-100">
@@ -12,16 +26,42 @@ const Header = () => {
       <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
       <li><a>All Contents</a></li>
       <li><a>My Contents</a></li>
-      <li><a>Log In</a></li>
+      {
+user && user.uid? 
+<li>
+<Link onClick={handleLogOut}>
+   Log Out
+ </Link>
+ </li>
+ : 
+ <li>
+ <Link to='/login'>
+   Log In
+ </Link>
+ </li>
+            }
       </ul>
     </div>
-    <a className="btn btn-ghost normal-case text-3xl"> <span className='text-info mr-2'>Pop</span> IT</a>
+    <Link to='/' className="btn btn-ghost normal-case text-3xl"> <span className='text-info mr-2'>Pop</span> IT</Link>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
       <li><a>All Contents</a></li>
       <li><a>My Contents</a></li>
-      <li><a>Log In</a></li>
+      {
+user && user.uid? 
+<li>
+<Link onClick={handleLogOut}>
+   Log Out
+ </Link>
+ </li>
+ : 
+ <li>
+ <Link to='/login'>
+   Log In
+ </Link>
+ </li>
+            }
     </ul>
   </div>
   <div className="navbar-end">
