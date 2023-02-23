@@ -1,5 +1,13 @@
 .App {
   text-align: center;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+@media only screen and (min-width: 800px) {
+.App{
+  margin-left: 40px;
+  margin-right: 40px;
+}
 }
 
 .App-logo {
