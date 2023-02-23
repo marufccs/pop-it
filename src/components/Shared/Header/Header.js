@@ -24,7 +24,7 @@ const Header = () => {
         <li><a>Item 3</a></li>
       </ul>
     </div>
-    <a className="btn btn-ghost normal-case text-xl">Pop IT</a>
+    <a className="btn btn-ghost normal-case text-3xl"> <span className='text-info mr-2'>Pop</span> IT</a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
@@ -43,7 +43,7 @@ const Header = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Get started</a>
+    <a className="btn btn-info text-white">Get started</a>
   </div>
 </div>
         </div>
