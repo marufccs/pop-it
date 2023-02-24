@@ -25,7 +25,19 @@ const Header = () => {
       </label>
       <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
       <li><a>All Contents</a></li>
-      <li><a>My Contents</a></li>
+      {
+user && user.uid? 
+<li>
+<Link>
+   My Contents
+ </Link>
+ <Link to='/uploadcontent'>
+ Upload a Content 
+ </Link>
+ </li>
+ : 
+ <></>
+            }
       {
 user && user.uid? 
 <li>
@@ -47,7 +59,19 @@ user && user.uid?
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
       <li><a>All Contents</a></li>
-      <li><a>My Contents</a></li>
+      {
+user && user.uid? 
+<li>
+<Link>
+   My Contents
+ </Link>
+ <Link to='/uploadcontent'>
+ Upload a Content 
+ </Link>
+ </li>
+ : 
+ <></>
+            }
       {
 user && user.uid? 
 <li>
@@ -65,7 +89,7 @@ user && user.uid?
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn btn-info text-white">Get started</a>
+    <Link to='/uploadcontent' className="btn btn-info text-white">Get started</Link>
   </div>
 </div>
         </div>

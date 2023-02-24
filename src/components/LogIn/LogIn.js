@@ -4,6 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/UserContext/UserContext';
+import { Helmet } from 'react-helmet';
 
 const LogIn = () => {
 
@@ -61,6 +62,12 @@ const LogIn = () => {
       }
 
     return (
+        <div>
+            <Helmet>
+                <title>
+                    Log In
+                </title>
+            </Helmet>
         <form onSubmit={handleSubmit(onSubmit)} className="hero lg:min-h-screen my-12 lg:my-0">
   <div className="hero-content min-w-full">
     <div className="card shadow-2xl w-full lg:w-1/3 bg-base-100">
@@ -98,6 +105,7 @@ const LogIn = () => {
     </div>
   </div>
 </form>
+</div>
     );
 };
 

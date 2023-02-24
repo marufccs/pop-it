@@ -3,6 +3,8 @@ import Home from "../Home/Home";
 import LogIn from "../LogIn/LogIn";
 import Register from "../LogIn/Register";
 import Main from "../Main/Main";
+import UploadContent from "../UploadContent/UploadContent";
+import PrivateRoute from "./PrivateRoute";
 
 export const router= createBrowserRouter([
     {
@@ -21,6 +23,12 @@ export const router= createBrowserRouter([
                 path: '/register',
                 element: <Register/>
             },
+            {
+                path: '/uploadcontent',
+                element: <PrivateRoute>
+                    <UploadContent/>
+                </PrivateRoute>
+            }
         ]
     }
 ])

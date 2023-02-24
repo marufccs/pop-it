@@ -4,6 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from '../../context/UserContext/UserContext';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const Register = () => {
 
@@ -21,13 +22,21 @@ const Register = () => {
         .then((userCredential) => {
             const user = userCredential.user;
             const userInfo = {
-                displayName : data.name
+                displayName : data.firstName
             }
             updateUser(userInfo)
             .then(() => {
-              console.log(user);
+            //   console.log(user);
             })
             .catch(err => console.log(err));
+            const userDetails = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                instagramUsername: data.instagramUsername,
+                gender: data.gender
+            }
+            console.log(userDetails)
             Swal.fire(
                 'Great',
                 "You've been registered successfully!",
@@ -66,17 +75,31 @@ const Register = () => {
       }
 
     return (
+        <div>
+            <Helmet>
+                <title>
+                    Register
+                </title>
+            </Helmet>
         <form onSubmit={handleSubmit(onSubmit)} className="hero lg:min-h-screen my-12 lg:my-0">
         <div className="hero-content min-w-full">
           <div className="card shadow-2xl w-full lg:w-1/3 bg-base-100">
             <div className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Your Name</span>
+                  <span className="label-text">First Name</span>
                 </label>
-                <input type="text" placeholder="Full Name" {...register("name", { required: true })} className="input input-bordered" />
-                {errors.name?.type === 'required' && <p 
-                      className='text-red-700' role="alert">Your full name is required</p>}
+                <input type="text" placeholder="First Name" {...register("firstName", { required: true })} className="input input-bordered" />
+                {errors.firstName?.type === 'required' && <p 
+                      className='text-red-700' role="alert">Your first name is required</p>}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Last Name</span>
+                </label>
+                <input type="text" placeholder="Last Name" {...register("lastName", { required: true })} className="input input-bordered" />
+                {errors.lastName?.type === 'required' && <p 
+                      className='text-red-700' role="alert">Your last name is required</p>}
               </div>
               <div className="form-control">
                 <label className="label">
@@ -87,6 +110,24 @@ const Register = () => {
                 {errors.email?.type === 'required' && <p 
                       className='text-red-700' role="alert">Your email is required</p>}
               </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Instagram Username</span>
+                </label>
+                <input type="text" placeholder="Instagram Username" {...register("instagramUsername", { required: true })} className="input input-bordered" />
+                {errors.instagramUsername?.type === 'required' && <p 
+                      className='text-red-700' role="alert">Your Instagram Username is required</p>}
+              </div>
+              <div className="form-control w-full">
+  <label className="label">
+    <span className="label-text">Your Gender</span>
+  </label>
+  <select {...register("gender", { required: true })} className="select select-bordered">
+    <option disabled selected>Your Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+</div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Create Password</span>
@@ -111,6 +152,7 @@ const Register = () => {
           </div>
         </div>
       </form>
+      </div>
     );
 };
 
