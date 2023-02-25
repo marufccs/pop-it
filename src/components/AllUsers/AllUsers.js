@@ -17,7 +17,17 @@ const AllUsers = (props) => {
         fetchData();
     }, []);
 
-    console.log(users);
+    const handleDelete = async (id) => {
+        try {
+          const response = await UserFinder.delete(`/${id}`);
+          setUsers(users.filter(user => {
+            return user.id !== id
+          }))
+          console.log(response)
+        } catch(err){
+            console.error(err)
+        }
+    }
 
     return (
         <div>
@@ -48,7 +58,7 @@ const AllUsers = (props) => {
                 <td>{user.instagram_username}</td>
                 <td>{user.gender}</td>
                 <td><button className="btn btn-success text-white">Update</button></td>
-                <td><button className="btn btn-error text-white">Delete</button></td>
+                <td><button onClick={() => handleDelete(user.id)} className="btn btn-error text-white">Delete</button></td>
             </tr>
                )
             }) 
