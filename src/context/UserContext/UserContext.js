@@ -11,6 +11,7 @@ const UserContext = ({children}) => {
 
     const [user, setUser] = useState('');
     const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([]);
 
         //sign up a new user
         const signInNewUser = (email, password) => {
@@ -52,7 +53,7 @@ const UserContext = ({children}) => {
     },[])
 
 
-    const authInfo = {signInNewUser, updateUser, signInUser, signInWithGoogle, user, logOut, loading};
+    const authInfo = {signInNewUser, updateUser, signInUser, signInWithGoogle, user, logOut, loading, users, setUsers};
 
     return (
         <div>

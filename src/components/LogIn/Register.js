@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/UserContext/UserContext';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { Helmet } from 'react-helmet';
+import UserFinder from '../../APIs/UserFinder';
 
 const Register = () => {
 
@@ -29,14 +30,17 @@ const Register = () => {
             //   console.log(user);
             })
             .catch(err => console.log(err));
-            const userDetails = {
-                firstName: data.firstName,
-                lastName: data.lastName,
+
+            const responsePromise  = UserFinder.post('/', {
+                first_name: data.first_name,
+                last_name: data.last_name,
                 email: data.email,
-                instagramUsername: data.instagramUsername,
+                instagram_username: data.instagram_username,
                 gender: data.gender
-            }
-            console.log(userDetails)
+            })
+            responsePromise.then((response) => {
+                console.log(response);
+            })
             Swal.fire(
                 'Great',
                 "You've been registered successfully!",
@@ -74,6 +78,8 @@ const Register = () => {
         });
       }
 
+      
+
     return (
         <div>
             <Helmet>
@@ -89,16 +95,16 @@ const Register = () => {
                 <label className="label">
                   <span className="label-text">First Name</span>
                 </label>
-                <input type="text" placeholder="First Name" {...register("firstName", { required: true })} className="input input-bordered" />
-                {errors.firstName?.type === 'required' && <p 
+                <input type="text" placeholder="First Name" {...register("first_name", { required: true })} className="input input-bordered" />
+                {errors.first_name?.type === 'required' && <p 
                       className='text-red-700' role="alert">Your first name is required</p>}
               </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Last Name</span>
                 </label>
-                <input type="text" placeholder="Last Name" {...register("lastName", { required: true })} className="input input-bordered" />
-                {errors.lastName?.type === 'required' && <p 
+                <input type="text" placeholder="Last Name" {...register("last_name", { required: true })} className="input input-bordered" />
+                {errors.last_name?.type === 'required' && <p 
                       className='text-red-700' role="alert">Your last name is required</p>}
               </div>
               <div className="form-control">
@@ -114,8 +120,8 @@ const Register = () => {
                 <label className="label">
                   <span className="label-text">Instagram Username</span>
                 </label>
-                <input type="text" placeholder="Instagram Username" {...register("instagramUsername", { required: true })} className="input input-bordered" />
-                {errors.instagramUsername?.type === 'required' && <p 
+                <input type="text" placeholder="Instagram Username" {...register("instagram_username", { required: true })} className="input input-bordered" />
+                {errors.instagram_username?.type === 'required' && <p 
                       className='text-red-700' role="alert">Your Instagram Username is required</p>}
               </div>
               <div className="form-control w-full">

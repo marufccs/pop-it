@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import AllUsers from "../AllUsers/AllUsers";
 import Home from "../Home/Home";
 import LogIn from "../LogIn/LogIn";
 import Register from "../LogIn/Register";
@@ -22,6 +23,10 @@ export const router= createBrowserRouter([
             {
                 path: '/register',
                 element: <Register/>
+            },
+            {
+                path: '/allusers',
+                element: <AllUsers/>
             },
             {
                 path: '/uploadcontent',
