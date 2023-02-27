@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import AllContents from "../AllContents/AllContents";
 import AllUsers from "../AllUsers/AllUsers";
 import UpdateUser from "../AllUsers/UpdateUser/UpdateUser";
 import Home from "../Home/Home";
@@ -28,6 +29,10 @@ export const router= createBrowserRouter([
             {
                 path: '/allusers',
                 element: <AllUsers/>
+            },
+            {
+                path: '/allcontents',
+                element: <AllContents/>
             },
             {
                 path: '/users/:id/update',

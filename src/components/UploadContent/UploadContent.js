@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
 import { FaTag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import ContentFinder from '../../APIs/ContentFinder';
 import UserFinder from '../../APIs/UserFinder';
 import { AuthContext } from '../../context/UserContext/UserContext';
@@ -73,6 +74,12 @@ const UploadContent = () => {
             })
             responsePromise.then((response) => {
                 console.log(response);
+                Swal.fire(
+                    'Awesome!',
+                    'You have uploaded the content successfully!',
+                    'success'
+                  )
+                  navigate('/allcontents')
             })
 
         }

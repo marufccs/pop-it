@@ -10,6 +10,7 @@ const UserContext = ({children}) => {
     const provider = new GoogleAuthProvider();
 
     const [user, setUser] = useState('');
+    const [contents, setContents] = useState('');
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
 
@@ -53,7 +54,7 @@ const UserContext = ({children}) => {
     },[])
 
 
-    const authInfo = {signInNewUser, updateUser, signInUser, signInWithGoogle, user, logOut, loading, users, setUsers};
+    const authInfo = {signInNewUser, updateUser, signInUser, signInWithGoogle, user, logOut, loading, users, setUsers, contents, setContents};
 
     return (
         <div>
