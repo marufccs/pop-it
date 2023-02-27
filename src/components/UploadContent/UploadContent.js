@@ -1,63 +1,83 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
+import { FaTag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import ContentFinder from '../../APIs/ContentFinder';
+import UserFinder from '../../APIs/UserFinder';
 import { AuthContext } from '../../context/UserContext/UserContext';
 
 const UploadContent = () => {
-
     
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+    const {users, setUsers} = useContext(AuthContext);
 
-    const imageHostKey = process.env.REACT_APP_imgbb_key;
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+           const response = await UserFinder.get('/');
+           setUsers(response.data.data.users)
+        } catch (err) {
+           console.log(err);
+        }};
+        fetchData();
+    }, []);
+
+    // console.log(users);
     const {user} = useContext(AuthContext);
 
+    
+    const userName = user?.displayName;
+    const userEmail = user?.email;
+    // console.log(userName);
+    const userr = users.find(user => user.email === userEmail);
 
-    const handleAddProducts = data => {
-        console.log(data);
+    const handleAddProducts = async (data) => {
+        // console.log(data);
         const name= data.name;
-        const price= data.price;
-        const condition= data.condition;
-        const number= data.number;
-        const location= data.location;
-        const originalPrice= data.originalPrice;
-        const purchaseYear= data.purchaseYear;
+        const tag= data.tag;
         const description= data.description;
-        const category_id= data.category_id
-
+        const now = new Date();
+        const options = {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        };
+        const formattedDate = now.toLocaleString('en-US', options);
         const image = data.img[0];
+
+        //upload image to imgbb
         const formData = new FormData();
-        formData.append('image', image);
-        const url = `https://api.imgbb.com/1/upload?&key=${imageHostKey}`;
-        fetch(url, {
-          method: 'POST',
-          body: formData
-        })
-        .then(res => res.json())
-        .then(imgData => {
-            if(imgData.success){
-              console.log(imgData.data.url);
-     
-        const product = {
+        formData.append("image", image);
+        const url = 'https://api.imgbb.com/1/upload?&key=6813c9d93b8cda65acb168cce85fe572';
+        const response = await fetch(url, {
+          method: "POST",
+          body: formData,
+        });
+        const imgData = await response.json();
+        // console.log(imgData);
+
+       // Create new content using the Imgbb URL
+        const responsePromise = ContentFinder.post('/', {
+                user_id: userr.id,
                 title: name,
-                resalePrice: price,
-                productCondition: condition,
-                sellerPhoneNumber: number,
-                location: location,
-                originalPrice: originalPrice,
-                yearsOfUse: purchaseYear,
-                productDescription: description,
-                img: imgData.data.url,
-                time: Date(),
-                sellerName:  user?.displayName,
-                category_id: category_id
-            }
-            console.log(product);
+                content_tag: tag,
+                content_description: description,
+                user_name:  userName,
+                image_url: imgData.data.url,
+                published_date: formattedDate,
+            })
+            responsePromise.then((response) => {
+                console.log(response);
+            })
+
+        }
         
-            }
-        })
-      }
+      
     return (
         <div>
             <Helmet>
@@ -70,29 +90,13 @@ const UploadContent = () => {
         <div className='lg:ml-16'>
         <form onSubmit={handleSubmit(handleAddProducts)} className='grid grid-cols-1 lg:ml-96 sm:mx-auto gap-3 mt-10'>
             
-       <input type="text" {...register("name", { required: "Name is required" })}  placeholder="Product Name" className="input sm:w-3/4 lg:w-1/2 input-bordered" />
+       <input type="text" {...register("name", { required: "Name is required" })}  placeholder="Content Name" className="input sm:w-3/4 lg:w-1/2 input-bordered" />
+
+       <input type="text" {...register("tag", { required: "Tag is required" })}  placeholder="Content Tag" className="input sm:w-3/4 lg:w-1/2 input-bordered" />
       
-       <input type="file"  {...register("img", { required: "Image is required" })}  placeholder="Product Image" className="input sm:w-3/4 lg:w-1/2 input input-bordered" />   
-                       
-       <input  type="text" {...register("price", { required: "price is required" })} placeholder="Product Price" className="input sm:w-3/4 lg:w-1/2 input-bordered" />
+       <input type="file"  {...register("img", { required: "Image is required" })}  placeholder="Product Image" className="sm:w-3/4 lg:w-1/2 input input-bordered" />   
 
-       <select {...register("condition", { required: "condition is required" })} className="select select-bordered sm:w-3/4 lg:w-1/2">
-
-       <option disabled selected>Product Condition</option>
-        <option>Excellent</option>
-       <option>Good</option>
-       <option>Fair</option>
-       </select>
-
-       <input type="text" {...register("number", { required: "number is required" })} placeholder="Your Phone Number" className="input sm:w-3/4 lg:w-1/2 input-bordered" />
-
-       <input type="text" {...register("location", { required: "location is required" })} placeholder="Your Location" className="input sm:w-3/4 lg:w-1/2 input-bordered" required/>
-
-       <input type="text" {...register("originalPrice", { required: "originalPrice is required" })}  placeholder="Original Price" className="input sm:w-3/4 lg:w-1/2 input-bordered" required/>
-
-       <input type="text" {...register("purchaseYear", { required: "purchaseYear is required" })} placeholder="Year of Purchase" className="input sm:w-3/4 lg:w-1/2 input-bordered" required/>
-
-       <textarea {...register("description", { required: "description is required" })} className="textarea textarea-bordered sm:w-3/4 lg:w-1/2" placeholder="Product Description"></textarea>
+       <textarea {...register("description")} className="textarea textarea-bordered sm:w-3/4 lg:w-1/2" placeholder="Content Description(Optional)"></textarea>
 
        <br />
            <input className='btn btn-accent text-white sm:w-3/4 lg:w-1/2' type="submit" value="Submit" />

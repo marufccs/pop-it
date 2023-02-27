@@ -23,11 +23,11 @@ const Register = () => {
         .then((userCredential) => {
             const user = userCredential.user;
             const userInfo = {
-                displayName : data.firstName
+                displayName : data.first_name
             }
             updateUser(userInfo)
             .then(() => {
-            //   console.log(user);
+              // console.log(user);
             })
             .catch(err => console.log(err));
 

@@ -1,10 +1,13 @@
 import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserFinder from '../../APIs/UserFinder';
 import { AuthContext } from '../../context/UserContext/UserContext';
 
 const AllUsers = (props) => {
 
     const {users, setUsers} = useContext(AuthContext);
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,6 +30,10 @@ const AllUsers = (props) => {
         } catch(err){
             console.error(err)
         }
+    }
+
+    const handleUpdate = (id) => {
+        navigate(`/users/${id}/update`);
     }
 
     return (
@@ -57,7 +64,7 @@ const AllUsers = (props) => {
                 <td>{user.email}</td>
                 <td>{user.instagram_username}</td>
                 <td>{user.gender}</td>
-                <td><button className="btn btn-success text-white">Update</button></td>
+                <td><button onClick={() => handleUpdate(user.id)} className="btn btn-success text-white">Update</button></td>
                 <td><button onClick={() => handleDelete(user.id)} className="btn btn-error text-white">Delete</button></td>
             </tr>
                )
