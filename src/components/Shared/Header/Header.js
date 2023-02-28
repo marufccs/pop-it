@@ -1,11 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import UserFinder from '../../../APIs/UserFinder';
 import { AuthContext } from '../../../context/UserContext/UserContext';
 import Loader from '../Loader/Loader';
 
 const Header = () => {
 
-  const {user, logOut, isLoading} = useContext(AuthContext);
+  const {user, logOut, isLoading, users, setUsers} = useContext(AuthContext);
+
+  useEffect(() => {
+      const fetchData = async () => {
+      try {
+         const response = await UserFinder.get('/');
+         setUsers(response.data.data.users)
+      } catch (err) {
+         console.log(err);
+      }};
+      fetchData();
+  }, []);
+
+  console.log(users);
+  
 
   if(isLoading){
     return <Loader/>
@@ -20,6 +35,8 @@ const Header = () => {
     });
   }
 
+  const isAdmin = user && user.email && users.some(us => us.email === user.email && us.role === "Admin" );
+
     return (
         <div>
             <div className="navbar bg-base-100">
@@ -31,15 +48,19 @@ const Header = () => {
       <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
       <li><Link to='/'>Home</Link></li>
       <li><Link to='/allcontents'>All Contents</Link></li>
-      <li><Link to='/allusers'>All Users</Link></li>
+      {isAdmin && (
+  <li>
+    <Link to='/allusers'>All Users</Link>
+  </li>
+)}
       {
 user && user.uid? 
 <li>
-<Link>
-   My Contents
- </Link>
  <Link to='/uploadcontent'>
  Upload a Content 
+ </Link>
+ <Link to='/statistics'>
+ Statistics
  </Link>
  </li>
  : 
@@ -71,24 +92,29 @@ user && user.uid?
     <div className="flex items-center">
       <Link to='/' className="btn btn-ghost normal-case text-3xl">
         <img src="https://i.ibb.co/Vj48JTN/favicon.png" alt="Company Logo" className="h-8 w-8 mr-2" />
-        <span className='text-info'>Pop IT</span>
+        <span className='text-info'>Pop <span className='text-black'>IT</span></span>
       </Link>
       </div>
-    {/* <Link to='/' className="btn btn-ghost normal-case text-3xl"> <span className='text-info mr-2'>Pop</span> IT</Link> */}
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
     <li><Link to='/'>Home</Link></li>
       <li><Link to='/allcontents'>All Contents</Link></li>
-      <li><Link to='/allusers'>All Users</Link></li>
+      {isAdmin && (
+  <li>
+    <Link to='/allusers'>All Users</Link>
+  </li>
+)}
       {
 user && user.uid? 
 <li>
-<Link>
-   My Contents
- </Link>
- <Link to='/uploadcontent'>
- Upload a Content 
+ {user && users && users.filter(u => u.role && u.role=== 'User') ? (
+  <li>
+    <Link to='/uploadcontent'>Upload a Content</Link>
+  </li>
+) : null}
+ <Link to='/statistics'>
+ Statistics
  </Link>
  </li>
  : 

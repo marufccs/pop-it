@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import UserFinder from '../../APIs/UserFinder';
 import { AuthContext } from '../../context/UserContext/UserContext';
+import Loader from '../Shared/Loader/Loader';
 
 const AllUsers = (props) => {
 
-    const {users, setUsers} = useContext(AuthContext);
+    const {users, setUsers, isLoading} = useContext(AuthContext);
 
     let navigate = useNavigate();
 
@@ -19,6 +21,10 @@ const AllUsers = (props) => {
         }};
         fetchData();
     }, []);
+
+    if(isLoading){
+      return <Loader/>
+    }
 
     const handleDelete = async (id) => {
         try {
@@ -38,6 +44,9 @@ const AllUsers = (props) => {
 
     return (
         <div>
+          <Helmet>
+            <title>All Users</title>
+          </Helmet>
                    <div>
             <div className="overflow-x-auto">
   <table className="table w-full">

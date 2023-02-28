@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import UserContext, { AuthContext } from '../../context/UserContext/UserContext';
 import Loader from '../Shared/Loader/Loader';
 import Banner from './Banner/Banner';
@@ -16,6 +17,9 @@ const Home = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Home</title>
+            </Helmet>
             <Banner/>
             <Intro/>
             <Newsletter/>

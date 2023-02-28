@@ -36,7 +36,8 @@ const Register = () => {
                 last_name: data.last_name,
                 email: data.email,
                 instagram_username: data.instagram_username,
-                gender: data.gender
+                gender: data.gender,
+                role: data.role
             })
             responsePromise.then((response) => {
                 console.log(response);
@@ -134,6 +135,17 @@ const Register = () => {
     <option>Female</option>
   </select>
 </div>
+<div className='form-control w-full'>
+    <label className="label">
+        <span className="label-text">Your Role</span>
+      </label>
+    <select {...register("role", { required: "Your Role is Required"})} className="select select-bordered" required>
+  <option disabled selected>Your Role</option>
+  <option>User</option>
+  <option>Admin</option>
+  {errors.type && <p className='text-red-500'>{errors.type.message}</p>}
+</select>
+    </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Create Password</span>
