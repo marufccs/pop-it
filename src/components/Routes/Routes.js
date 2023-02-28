@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AllContents from "../AllContents/AllContents";
+import UpdateContent from "../AllContents/UpdateContent/UpdateContent";
 import AllUsers from "../AllUsers/AllUsers";
 import UpdateUser from "../AllUsers/UpdateUser/UpdateUser";
 import ErrorPage from "../ErrorPage/ErrorPage";
@@ -11,6 +12,7 @@ import Statistics from "../Statistics/Statistics";
 import UploadContent from "../UploadContent/UploadContent";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
+import SellerRoute from "./SellerRoute";
 
 export const router= createBrowserRouter([
     {
@@ -38,24 +40,32 @@ export const router= createBrowserRouter([
                     </AdminRoute>
             },
             {
-                path: '/allcontents',
-                element: <AllContents/>
-            },
-            {
-                path: '/statistics',
-                element: <Statistics/>
-            },
-            {
                 path: '/users/:id/update',
                 loader: ({params}) => 
                     fetch (`http://localhost:5000/users/${params.id}/update`),
                 element: <UpdateUser/>
             },
             {
+                path: '/allcontents',
+                element: <AllContents/>
+            },
+            {
+                path: '/contents/:id/update',
+                loader: ({params}) => 
+                    fetch (`http://localhost:5000/contents/${params.id}/update`),
+                element: <UpdateContent/>
+            },
+            {
+                path: '/statistics',
+                element: <SellerRoute>           
+                       <Statistics/>
+                       </SellerRoute>
+            },
+            {
                 path: '/uploadcontent',
-                element: <PrivateRoute>
+                element: <SellerRoute>
                     <UploadContent/>
-                </PrivateRoute>
+                    </SellerRoute>
             }
         ]
     }

@@ -36,6 +36,7 @@ const Header = () => {
   }
 
   const isAdmin = user && user.email && users.some(us => us.email === user.email && us.role === "Admin" );
+  const isUser = user && user.email && users.some(us => us.email === user.email && us.role === "User" );
 
     return (
         <div>
@@ -53,9 +54,9 @@ const Header = () => {
     <Link to='/allusers'>All Users</Link>
   </li>
 )}
-      {
-user && user.uid? 
-<li>
+      {isUser && (
+  <li>
+    <li>
  <Link to='/uploadcontent'>
  Upload a Content 
  </Link>
@@ -63,9 +64,8 @@ user && user.uid?
  Statistics
  </Link>
  </li>
- : 
- <></>
-            }
+  </li>
+)}
       {
 user && user.uid? 
 <li>
@@ -105,21 +105,16 @@ user && user.uid?
     <Link to='/allusers'>All Users</Link>
   </li>
 )}
-      {
-user && user.uid? 
-<li>
- {user && users && users.filter(u => u.role && u.role=== 'User') ? (
-  <li>
-    <Link to='/uploadcontent'>Upload a Content</Link>
-  </li>
-) : null}
+{isUser && (
+    <li>
+ <Link to='/uploadcontent'>
+ Upload a Content 
+ </Link>
  <Link to='/statistics'>
  Statistics
  </Link>
  </li>
- : 
- <></>
-            }
+)}
       {
 user && user.uid? 
 <li>

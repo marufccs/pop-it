@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import UserFinder from '../../APIs/UserFinder';
 import { AuthContext } from '../../context/UserContext/UserContext';
 import Loader from '../Shared/Loader/Loader';
@@ -32,6 +33,11 @@ const AllUsers = (props) => {
           setUsers(users.filter(user => {
             return user.id !== id
           }))
+          Swal.fire(
+            'Good job!',
+            'You deleted the user successfully!',
+            'success'
+          )
           console.log(response)
         } catch(err){
             console.error(err)

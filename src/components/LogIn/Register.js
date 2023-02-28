@@ -6,10 +6,11 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { Helmet } from 'react-helmet';
 import UserFinder from '../../APIs/UserFinder';
+import Loader from '../Shared/Loader/Loader';
 
 const Register = () => {
 
-    const {signInNewUser, updateUser, signInWithGoogle} = useContext(AuthContext);
+    const {signInNewUser, updateUser, signInWithGoogle, isLoading} = useContext(AuthContext);
 
     const { register, handleSubmit, watch, formState, reset, formState: { errors } } = useForm();
 
@@ -79,6 +80,9 @@ const Register = () => {
         });
       }
 
+      if(isLoading){
+        return <Loader/>
+      }
       
 
     return (

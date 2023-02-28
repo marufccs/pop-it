@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/UserContext/UserContext';
 import { Helmet } from 'react-helmet';
+import Loader from '../Shared/Loader/Loader';
 
 const LogIn = () => {
 
-    const {signInUser, signInWithGoogle} = useContext(AuthContext);
+    const {signInUser, signInWithGoogle, isLoading} = useContext(AuthContext);
 
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -59,6 +60,10 @@ const LogIn = () => {
         }).catch((error) => {
           const errorMessage = error.message;
         });
+      }
+
+      if(isLoading){
+        return <Loader/>
       }
 
     return (
