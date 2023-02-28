@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tanstack/react-query": "^4.24.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -15,6 +16,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.43.2",
     "react-icons": "^4.7.1",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.7.2",

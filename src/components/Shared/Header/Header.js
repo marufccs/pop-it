@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../context/UserContext/UserContext';
+import Loader from '../Loader/Loader';
 
 const Header = () => {
 
-  const {user, logOut} = useContext(AuthContext);
+  const {user, logOut, isLoading} = useContext(AuthContext);
+
+  if(isLoading){
+    return <Loader/>
+}
 
   const handleLogOut = () => {
     logOut()
@@ -63,7 +68,13 @@ user && user.uid?
             }
       </ul>
     </div>
-    <Link to='/' className="btn btn-ghost normal-case text-3xl"> <span className='text-info mr-2'>Pop</span> IT</Link>
+    <div className="flex items-center">
+      <Link to='/' className="btn btn-ghost normal-case text-3xl">
+        <img src="https://i.ibb.co/Vj48JTN/favicon.png" alt="Company Logo" className="h-8 w-8 mr-2" />
+        <span className='text-info'>Pop IT</span>
+      </Link>
+      </div>
+    {/* <Link to='/' className="btn btn-ghost normal-case text-3xl"> <span className='text-info mr-2'>Pop</span> IT</Link> */}
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">

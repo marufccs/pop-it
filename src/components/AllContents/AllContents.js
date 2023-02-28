@@ -1,25 +1,39 @@
+import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import ContentFinder from '../../APIs/ContentFinder';
 import { AuthContext } from '../../context/UserContext/UserContext';
+import Loader from '../Shared/Loader/Loader';
 import AllContent from './AllContent';
+
 
 const AllContents = ({props}) => {
 
-    const {contents, setContents} = useContext(AuthContext);
+    const {contents, setContents, loading} = useContext(AuthContext);
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const fetchData = async () => {
         try {
            const response = await ContentFinder.get('/');
-           setContents(response.data.data.contents)
+           const updatedContents = await Promise.all(response.data.data.contents.map(async (content) => {
+               const numLikesResponse = await axios.get(`http://localhost:5000/like-content?content_id=${content.id}&random=${Math.random()}`);
+               const numLikes = numLikesResponse.data.numLikes;
+               return { ...content, numLikes };
+           }));
+           setContents(updatedContents);
         } catch (err) {
            console.log(err);
-        }};
+        }
+    };
+    useEffect(() => {
         fetchData();
-    }, []);
+      }, []);
 
     console.log(contents);
+    
+        //loader
+        if(loading){
+            return <Loader/>
+        }
 
     return (
         <div>
@@ -34,8 +48,9 @@ const AllContents = ({props}) => {
             </p>
             <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto lg:ml-20 sm:ml-12 my-20'>
                 {
-                    contents.map(content => <AllContent key={content.id} content={content}></AllContent>)
-                }
+    contents.sort((a, b) => b.numLikes - a.numLikes)
+            .map(content => <AllContent key={content.id} content={content}></AllContent>)
+}
             </div>
         </div>
     );
