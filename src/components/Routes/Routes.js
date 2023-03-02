@@ -47,7 +47,7 @@ export const router= createBrowserRouter([
             },
             {
                 path: '/allcontents',
-                element: <AllContents/>
+                element: <PrivateRoute><AllContents/></PrivateRoute>
             },
             {
                 path: '/contents/:id/update',
@@ -57,9 +57,8 @@ export const router= createBrowserRouter([
             },
             {
                 path: '/statistics',
-                element: <SellerRoute>           
-                       <Statistics/>
-                       </SellerRoute>
+                element: <PrivateRoute> <Statistics/> </PrivateRoute>
+                      
             },
             {
                 path: '/uploadcontent',

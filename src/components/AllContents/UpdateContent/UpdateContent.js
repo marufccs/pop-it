@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import ContentFinder from "../../../APIs/ContentFinder";
 import { AuthContext } from "../../../context/UserContext/UserContext";
 import Loader from "../../Shared/Loader/Loader";
@@ -19,9 +20,9 @@ const UpdateContent = () => {
     const fetchData = async () => {
       try {
         const response = await ContentFinder.get(`/${id}`);
-        setTitle(response.data.data.title);
-        setContentDescription(response.data.data.content_description);
-        setContentTag(response.data.data.content_tag);
+        setTitle(response.data.data.content.title);
+        setContentDescription(response.data.data.content.content_description);
+        setContentTag(response.data.data.content.content_tag);
       } catch (err) {
         console.log(err);
       }
@@ -30,28 +31,44 @@ const UpdateContent = () => {
   }, [id]);
 
   // Handle the form submission
-  const handleSubmit = async (e) => {
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const formData = new FormData();
+//       formData.append('title', title);
+//       formData.append('content_description', contentDescription);
+//       formData.append('content_tag', contentTag);
+//       const response = await ContentFinder.put(`/${id}`, formData);
+//       console.log(response.data.data);
+//       const updatedContent = response.data.data.content;
+//       const updatedContents = contents.map((content) => {
+//         if (content.id === updatedContent.id) {
+//           return updatedContent;
+//         }
+//         return content;
+//       });
+//       setContents(updatedContents);
+//       navigate('/allcontents');
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+
+const handleSubmit =async (e) => {
     e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('content_description', contentDescription);
-      formData.append('content_tag', contentTag);
-      const response = await ContentFinder.put(`/${id}`, formData);
-      console.log(response.data.data);
-      const updatedContent = response.data.data.content;
-      const updatedContents = contents.map((content) => {
-        if (content.id === updatedContent.id) {
-          return updatedContent;
-        }
-        return content;
-      });
-      setContents(updatedContents);
-      navigate('/allcontents');
-    } catch (err) {
-      console.log(err);
+    const updatedContent = {
+        title : title,
+        content_description : contentDescription,
+        content_tag : contentTag
     }
-  };
+    await ContentFinder.put(`/${id}`, updatedContent);
+    Swal.fire(
+        'Good job!',
+        'You updated the content successfully!',
+        'success'
+      )
+      navigate(-1);
+}
 
   if (isLoading) {
     return <Loader />;

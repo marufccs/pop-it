@@ -70,7 +70,7 @@ const UploadContent = () => {
                 content_description: description,
                 user_name:  userName,
                 image_url: imgData.data.url,
-                published_date: formattedDate,
+                // published_date: formattedDate,
             })
             responsePromise.then((response) => {
                 console.log(response);

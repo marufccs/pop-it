@@ -60,7 +60,7 @@ const AllContents = () => {
         <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto lg:ml-20 sm:ml-12 my-20'>
         {contents
     .slice()
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .sort((a, b) => new Date(b.published_date) - new Date(a.published_date))
     .map(content => <AllContent key={content.id} content={content}></AllContent>)
 }
         </div>

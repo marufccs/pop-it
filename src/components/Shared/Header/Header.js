@@ -56,16 +56,16 @@ const Header = () => {
 )}
       {isUser && (
   <li>
-    <li>
  <Link to='/uploadcontent'>
  Upload a Content 
  </Link>
- <Link to='/statistics'>
- Statistics
- </Link>
- </li>
   </li>
 )}
+<li>
+<Link to='/statistics'>
+ Statistics
+ </Link>
+</li>
       {
 user && user.uid? 
 <li>
@@ -110,11 +110,13 @@ user && user.uid?
  <Link to='/uploadcontent'>
  Upload a Content 
  </Link>
- <Link to='/statistics'>
- Statistics
- </Link>
  </li>
 )}
+<li>
+<Link to='/statistics'>
+ Statistics
+ </Link>
+</li>
       {
 user && user.uid? 
 <li>

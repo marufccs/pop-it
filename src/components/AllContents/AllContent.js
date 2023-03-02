@@ -96,7 +96,7 @@ const AllContent = ({content}) => {
     }
 
     return (
-        <div className="card card-compact w-96 bg-base-100 shadow-xl mt-0">
+        <div className="card card-compact w-96 bg-base-100 shadow-xl mt-4">
         <figure><img className='h-72 w-full' src={image_url} alt='' /></figure>
         <div className="card-body">
           <h2 className="card-title justify-center text-2xl">{title}</h2>
